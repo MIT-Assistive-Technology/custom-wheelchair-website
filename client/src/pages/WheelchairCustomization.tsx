@@ -14,12 +14,11 @@ const navigationLinks = [
 export default function WheelchairCustomization() {
   const [wheelchairImage, setWheelchairImage] = useState<string | null>(null);
   const [measurements, setMeasurements] = useState({
-    hipWidth: 0,
-    shinLength: 0,
-    measurement3: 0,
-    measurement4: 0,
-    measurement5: 0,
-    measurement6: 0,
+    hipWidth: 15,
+    seatDepth: 16,
+    backrestDesiredHeight: 14.25,
+    sideGuardHeight: 8,
+    shinLength: 15,
   });
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,8 +44,14 @@ export default function WheelchairCustomization() {
   const dynamicMeasurements = {
     frameLength: Math.round(14.5 * scaleFactor * 10) / 10,
     seatWidth: Math.round(14 * scaleFactor * 10) / 10,
-    backrestHeight: Math.round(18 * scaleFactor * 10) / 10,
     armrestLength: Math.round(12 * scaleFactor * 10) / 10,
+    backrestSupport: 5+(measurements.backrestDesiredHeight),
+
+    footplateSectionLength: (measurements.hipWidth)-4.75,
+    camberTubeLength: (measurements.hipWidth)+1.5,
+    seatPanWidth: (measurements.hipWidth),
+    seatPanDepth: (measurements.seatDepth),
+    backrestHeight: (measurements.backrestDesiredHeight),
   };
 
   return (
@@ -81,10 +86,10 @@ export default function WheelchairCustomization() {
         {/* Title and Description */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4" data-testid="text-title">
-            Customized Wheelchair Instructions
+            Wheelchair Customization
           </h1>
           <p className="text-gray-600 dark:text-gray-300 max-w-3xl" data-testid="text-description">
-            Here is the text describing the wheelchair, the process, etc.
+            Use this tool to customize your wheelchair designs based on user measurements. This helps you design a customized Ply Guy Active Wheelchair, courtesy of OpenSourceWheelchairs and designer Erik Kondo.
           </p>
         </div>
 
@@ -95,15 +100,15 @@ export default function WheelchairCustomization() {
               <CardContent className="p-6">
                 <div className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center overflow-hidden">
                   {wheelchairImage ? (
-                    <img 
-                      src={wheelchairImage} 
-                      alt="Wheelchair" 
+                    <img
+                      src={wheelchairImage}
+                      alt="Wheelchair"
                       className="w-full h-full object-cover"
                       data-testid="img-wheelchair"
                     />
                   ) : (
-                    <label 
-                      htmlFor="wheelchair-upload" 
+                    <label
+                      htmlFor="wheelchair-upload"
                       className="flex flex-col items-center justify-center cursor-pointer w-full h-full"
                       data-testid="label-upload"
                     >
@@ -128,9 +133,9 @@ export default function WheelchairCustomization() {
           <div>
             <Card>
               <CardHeader>
-                <CardTitle data-testid="text-design-name">Design Name</CardTitle>
-                <a 
-                  href="#" 
+                <CardTitle data-testid="text-design-name">Ply Guy Active Wheelchair</CardTitle>
+                <a
+                  href="#"
                   className="text-blue-500 hover:text-blue-600 text-sm"
                   data-testid="link-instructions"
                 >
@@ -142,9 +147,9 @@ export default function WheelchairCustomization() {
                   {/* Body Measurements Column */}
                   <div className="space-y-4">
                     <h3 className="font-semibold text-sm text-gray-700 dark:text-gray-300" data-testid="text-body-measurements">
-                      Body measurements
+                      Key Body Measurements
                     </h3>
-                    
+
                     <div>
                       <Label htmlFor="hip-width" className="text-sm text-gray-600 dark:text-gray-400">
                         Hip Width (in)
@@ -152,7 +157,7 @@ export default function WheelchairCustomization() {
                       <Input
                         id="hip-width"
                         type="number"
-                        step="0.1"
+                        step="0.5"
                         value={measurements.hipWidth || ''}
                         onChange={(e) => handleMeasurementChange('hipWidth', e.target.value)}
                         className="mt-1"
@@ -161,34 +166,20 @@ export default function WheelchairCustomization() {
                     </div>
 
                     <div>
-                      <Label htmlFor="shin-length" className="text-sm text-gray-600 dark:text-gray-400">
-                        Shin Length (in)
+                      <Label htmlFor="seatDepth" className="text-sm text-gray-600 dark:text-gray-400">
+                        Seat Depth (in)
                       </Label>
                       <Input
-                        id="shin-length"
+                        id="seatDepth"
                         type="number"
-                        step="0.1"
-                        value={measurements.shinLength || ''}
-                        onChange={(e) => handleMeasurementChange('shinLength', e.target.value)}
+                        step="0.25"
+                        value={measurements.seatDepth || ''}
+                        onChange={(e) => handleMeasurementChange('seatDepth', e.target.value)}
                         className="mt-1"
-                        data-testid="input-shin-length"
+                        data-testid="input-seatDepth"
                       />
                     </div>
 
-                    <div>
-                      <Label htmlFor="measurement-3" className="text-sm text-gray-600 dark:text-gray-400">
-                        Measurement 3 (in)
-                      </Label>
-                      <Input
-                        id="measurement-3"
-                        type="number"
-                        step="0.1"
-                        value={measurements.measurement3 || ''}
-                        onChange={(e) => handleMeasurementChange('measurement3', e.target.value)}
-                        className="mt-1"
-                        data-testid="input-measurement-3"
-                      />
-                    </div>
                   </div>
 
                   {/* Preference Measurements Column */}
@@ -198,47 +189,47 @@ export default function WheelchairCustomization() {
                     </h3>
 
                     <div>
-                      <Label htmlFor="measurement-4" className="text-sm text-gray-600 dark:text-gray-400">
-                        Measurement 4 (in)
+                      <Label htmlFor="backrestDesiredHeight" className="text-sm text-gray-600 dark:text-gray-400">
+                        Backrest Height (in)
                       </Label>
                       <Input
-                        id="measurement-4"
+                        id="backrestDesiredHeight"
                         type="number"
-                        step="0.1"
-                        value={measurements.measurement4 || ''}
-                        onChange={(e) => handleMeasurementChange('measurement4', e.target.value)}
+                        step="0.25"
+                        value={measurements.backrestDesiredHeight || ''}
+                        onChange={(e) => handleMeasurementChange('backrestDesiredHeight', e.target.value)}
                         className="mt-1"
-                        data-testid="input-measurement-4"
+                        data-testid="input-backrestDesiredHeight"
                       />
                     </div>
 
                     <div>
-                      <Label htmlFor="measurement-5" className="text-sm text-gray-600 dark:text-gray-400">
-                        Measurement 5 (in)
+                      <Label htmlFor="sideGuardHeight" className="text-sm text-gray-600 dark:text-gray-400">
+                        Side Guard Height (in)
                       </Label>
                       <Input
-                        id="measurement-5"
+                        id="sideGuardHeight"
                         type="number"
-                        step="0.1"
-                        value={measurements.measurement5 || ''}
-                        onChange={(e) => handleMeasurementChange('measurement5', e.target.value)}
+                        step="0.25"
+                        value={measurements.sideGuardHeight || ''}
+                        onChange={(e) => handleMeasurementChange('sideGuardHeight', e.target.value)}
                         className="mt-1"
-                        data-testid="input-measurement-5"
+                        data-testid="input-sideGuardHeight"
                       />
                     </div>
 
                     <div>
-                      <Label htmlFor="measurement-6" className="text-sm text-gray-600 dark:text-gray-400">
-                        Measurement 6 (in)
+                      <Label htmlFor="shinLength" className="text-sm text-gray-600 dark:text-gray-400">
+                        Shin Length (distance from seatpan to footrest) (in)
                       </Label>
                       <Input
-                        id="measurement-6"
+                        id="shinLength"
                         type="number"
-                        step="0.1"
-                        value={measurements.measurement6 || ''}
-                        onChange={(e) => handleMeasurementChange('measurement6', e.target.value)}
+                        step="0.25"
+                        value={measurements.shinLength || ''}
+                        onChange={(e) => handleMeasurementChange('shinLength', e.target.value)}
                         className="mt-1"
-                        data-testid="input-measurement-6"
+                        data-testid="input-shinLength"
                       />
                     </div>
                   </div>
@@ -247,6 +238,9 @@ export default function WheelchairCustomization() {
             </Card>
           </div>
         </div>
+
+
+
 
         {/* Instructions Section */}
         <Card>
@@ -257,76 +251,159 @@ export default function WheelchairCustomization() {
             {/* Parts List */}
             <div>
               <h3 className="font-bold text-lg mb-4 text-gray-900 dark:text-white" data-testid="text-parts-title">Parts</h3>
-              
+
               <div className="space-y-4">
                 <div>
                   <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Frame</h4>
                   <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
-                    <li data-testid="text-frame-1">
-                      (2) 1 14.5"x 8"x{" "}
-                      <span className="font-bold text-blue-600 dark:text-blue-400" data-testid="text-dynamic-frame-length">
-                        {dynamicMeasurements.frameLength || 0}"
-                      </span>{" "}
-                      tube
-                    </li>
-                    <li>(2) 1 x 8" tube</li>
-                    <li>(2) 1 x 4" tube</li>
-                    <li data-testid="text-frame-2">
-                      (1) 1" x 3" x{" "}
-                      <span className="font-bold text-blue-600 dark:text-blue-400" data-testid="text-dynamic-seat-width">
-                        {dynamicMeasurements.seatWidth || 0}"
-                      </span>{" "}
-                      Steel flat Bar rectangular camber tube(s)
-                    </li>
-                    <li>(4) 1.5" x 1.5" x 0.065 cross bearers</li>
-                    <li>(2) 1.5" x 1.5" x 10 caster mount</li>
+
+                    <li>(1) 2” x 4”x 6’ Wood Stud</li>
+                    <li>(1) 2” x 4” x ½” Piece of Plywood (Cabinet Grade)</li>
+                    <li>(1) 2” x 4” x ¼” Piece of Plywood (Cabinet Grade)</li>
+                    <li>(2) 3” x 1.25” Punched Zinc Square Tubes</li>
+                    <li>(4) 3”x 1” Punched Zinc Square Tubes</li>
+
                   </ul>
                 </div>
 
                 <div>
-                  <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Wheels</h4>
+                  <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Wooden Parts</h4>
                   <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
-                    <li>(2) 24" bike rims with spokes</li>
-                    <li>(2) 24" bike inner tubes</li>
-                    <li>(2) 24" bike tires</li>
-                    <li>(2) 1 3/8" Drums hubs</li>
-                    <li>(2) 1 3/8" PVC Drums hubs</li>
-                    <li>(2) 1.5" PVC axle shafts</li>
-                    <li>(2) 1 3/8" x 0.062 axle clamps(2)(footrest wheel center brackets)</li>
+
+                    <li>
+                      <strong><em>From 2” x 4” x 6’ Stud</em></strong>
+
+                      <ul className="list-disc list-inside ml-6">
+
+                        <li>Upper Chassis - 2” x 2” x 22”</li>
+                        <li data-testid="text-frame-1">
+                        Backrest Support - 2” x 2” x{" "}
+                          <span className="font-bold text-blue-600 dark:text-blue-400" data-testid="text-dynamic-backrest-support">
+                          {dynamicMeasurements.backrestSupport || 0}"
+                          </span>{" "}
+                        {/*tube*/}
+                        </li>
+
+                        <li data-testid="text-frame-2">
+                        Footplate Sections - 2” x 2” x{" "}
+                          <span className="font-bold text-blue-600 dark:text-blue-400" data-testid="text-dynamic-flootplate-sections">
+                          {dynamicMeasurements.footplateSectionLength || 0}"
+                          </span>{" "}
+                        </li>
+
+                        <li>Foot Support Blocks - 2” x 4” x 4”</li>
+                      </ul>
+                    </li>
+
+
+                    <li>
+                      <strong><em>From 2” x 4” x ½” Plywood</em></strong>
+                      <ul className="list-disc list-inside ml-7">
+
+                        <li>Footplate Supports - XX x 4” x ½”</li>
+
+                        <li data-testid="text-frame-3">
+                            Lower Camber Tube Board – 3” x{" "}
+                            <span
+                              className="font-bold text-blue-600 dark:text-blue-400"
+                              data-testid="text-dynamic-lcamber-tube-length"
+                            >
+                              {dynamicMeasurements.camberTubeLength || 0}"
+                            </span>{" "}
+                            x ½”
+                          </li>
+
+                        <li data-testid="text-frame-4">
+                            Upper Camber Tube Board - 3” x{" "}
+                            <span className="font-bold text-blue-600 dark:text-blue-400" data-testid="text-dynamic-ucamber-tube-length">
+                            {dynamicMeasurements.camberTubeLength || 0}"
+                            </span>{" "}
+                            x ½”
+                        </li>
+
+                        <li>Outer Corner Brackets -</li>
+                        <li>Inside Corner Brackets -</li>
+                        <li>Front Side Supports -</li>
+
+                      </ul>
+                    </li>
+
+
+                    <li>
+                      <strong><em>From 2” x 4” x ¼” Plywood</em></strong>
+                      <ul className="list-disc list-inside ml-8">
+                        <li data-testid="text-frame-5">
+                        Seat Pan - {" "}
+                          <span className="font-bold text-blue-600 dark:text-blue-400" data-testid="text-dynamic-seat-pan-width">
+                          {dynamicMeasurements.seatPanWidth || 0}"
+                          </span>{" "}
+                        x{" "}
+                          <span className="font-bold text-blue-600 dark:text-blue-400" data-testid="text-dynamic-seat-pan-depth">
+                          {dynamicMeasurements.seatPanDepth || 0}"
+                          </span>{" "}
+                          x ½”
+                        </li>
+
+                        <li data-testid="text-frame-6">
+                        Backrest - {" "}
+                          <span className="font-bold text-blue-600 dark:text-blue-400" data-testid="text-dynamic-backrest-height">
+                          {dynamicMeasurements.backrestHeight || 0}"
+                          </span>{" "}
+                        x{" "}
+                          <span className="font-bold text-blue-600 dark:text-blue-400" data-testid="text-dynamic-backrest-width">
+                          {dynamicMeasurements.seatPanWidth || 0}"
+                          </span>{" "}
+                          x ½”
+                        </li>
+
+                        <li>Side Guards -</li>
+
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Pre-Fabricated Wheelchair Parts</h4>
+                  <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
+                    <li>(2) Drive Wheels</li>
+                    <li>(2) Caster Forks and 4” Wheels</li>
+                    <li>(2) Wheel-locks and Mounts</li>
+                    <li>(2) Axle Receivers</li>
                   </ul>
                 </div>
 
                 <div>
                   <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Fasteners</h4>
                   <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
-                    <li>(4 box of 3/4" wood screws)</li>
-                    <li>(2 box of 1 3/8" wood screws)</li>
-                    <li>(1 box of 2 1/2" wood screws)</li>
+                    <li>(4) 3” x 5/16” Hex Bolts, Washers, Nuts</li>
+                    <li>(4) 5”x 5/16” Hex bolts, Washers, Nuts</li>
+                    <li>(1) Box of 100 Wood Screws</li>
+                    <li>(1) Medium Strength Loctite</li>
+                    {/*
                     <li data-testid="text-fasteners-1">
                       (40) 4" x 3/16" bolts, nuts, washers (for Pony Caster brackets)
                     </li>
-                    <li>(18) 7 plastic washers and screws</li>
+                      */}
                   </ul>
                 </div>
 
                 <div>
-                  <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Axles</h4>
+                  <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Tools</h4>
                   <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
-                    <li>(2) quick release lever mounts (may also come already on wheels)</li>
-                    <li>(2) 4" x 9" caster bracket N/As and wheels</li>
-                    <li>(2) Wheelchairs and screws</li>
-                    <li>(2) 3/8" washers</li>
-                    <li>(2) 3/8" or 25" wheelchair wheels</li>
+                    <li>(1) ½” Diameter Rod</li>
+                    <li>(2) Hand Clamps</li>
+                    <li>(1) Measuring Square</li>
+                    <li>(1) Yardstick (or Measuring Tape)</li>
+                    <li>Screwdriver</li>
+                    <li>Wrench</li>
+                    <li>Allen Wrench</li>
+                    <li>Drill</li>
                   </ul>
                 </div>
 
-                <div>
-                  <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Textiles</h4>
-                  <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
-                    <li>(2) Canvas seat back</li>
-                    <li>(1) Yard of cloth for backrest cover</li>
-                  </ul>
-                </div>
+
+
               </div>
             </div>
 
