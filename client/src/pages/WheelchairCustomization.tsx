@@ -40,11 +40,8 @@ export default function WheelchairCustomization() {
   };
 
   // Calculate dynamic measurements based on hip width
-  const scaleFactor = measurements.hipWidth / 14; // Base scale factor
   const dynamicMeasurements = {
-    frameLength: Math.round(14.5 * scaleFactor * 10) / 10,
-    seatWidth: Math.round(14 * scaleFactor * 10) / 10,
-    armrestLength: Math.round(12 * scaleFactor * 10) / 10,
+
     backrestSupport: 5+(measurements.backrestDesiredHeight),
 
     footplateSectionLength: (measurements.hipWidth)-4.75,
@@ -135,7 +132,7 @@ export default function WheelchairCustomization() {
               <CardHeader>
                 <CardTitle data-testid="text-design-name">Ply Guy Active Wheelchair</CardTitle>
                 <a
-                  href="#"
+                  href="https://www.opensourcewheelchairs.org/_files/ugd/d9ae66_cc59f398e09642ca907d965fccbca107.pdf"
                   className="text-blue-500 hover:text-blue-600 text-sm"
                   data-testid="link-instructions"
                 >
