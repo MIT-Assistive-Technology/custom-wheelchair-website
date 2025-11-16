@@ -7,8 +7,8 @@ import { Upload } from "lucide-react";
 
 const navigationLinks = [
   { label: "Designs", href: "#designs" },
-  { label: "Learn more", href: "#learn-more" },
-  { label: "Support", href: "#support" },
+  //{ label: "Learn more", href: "#learn-more" },
+  //{ label: "Support", href: "#support" },
 ];
 
 export default function WheelchairCustomization() {
@@ -19,6 +19,9 @@ export default function WheelchairCustomization() {
     backrestDesiredHeight: 14.25,
     sideGuardHeight: 8,
     shinLength: 15,
+    frontFootplateDist: 4,
+    upperChassisLength: 20,
+    footSupportLength: 7,
   });
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,6 +55,9 @@ export default function WheelchairCustomization() {
     seatPanWidth: (measurements.hipWidth),
     seatPanDepth: (measurements.seatDepth),
     backrestHeight: (measurements.backrestDesiredHeight),
+    frontFootplateDist: (measurements.frontFootplateDist),
+    upperChassisLength: (measurements.seatDepth) + measurements.frontFootplateDist,
+    footSupportLength: (measurements.shinLength) - 8,
   };
 
   return (
@@ -232,6 +238,21 @@ export default function WheelchairCustomization() {
                         data-testid="input-shinLength"
                       />
                     </div>
+
+                    <div>
+                      <Label htmlFor="frontFootplateDist" className="text-sm text-gray-600 dark:text-gray-400">
+                        Distance from seatpan to front of footplate (in)
+                      </Label>
+                      <Input
+                        id="frontFootplateDist"
+                        type="number"
+                        step="0.25"
+                        value={measurements.frontFootplateDist || ''}
+                        onChange={(e) => handleMeasurementChange('frontFootplateDist', e.target.value)}
+                        className="mt-1"
+                        data-testid="input-frontFootplateDist"
+                      />
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -275,7 +296,12 @@ export default function WheelchairCustomization() {
 
                       <ul className="list-disc list-inside ml-6">
 
-                        <li>Upper Chassis - 2” x 2” x 22”</li>
+                        <li data-testid="text-frame-0">
+                        Upper Chassis - 2” x 2” x {" "}
+                          <span className="font-bold text-blue-600 dark:text-blue-400" data-testid="text-dynamic-upper-chassis">
+                          {dynamicMeasurements.upperChassisLength || 0}"
+                          </span>{" "}
+                        </li>
                         <li data-testid="text-frame-1">
                         Backrest Support - 2” x 2” x{" "}
                           <span className="font-bold text-blue-600 dark:text-blue-400" data-testid="text-dynamic-backrest-support">
@@ -286,7 +312,7 @@ export default function WheelchairCustomization() {
 
                         <li data-testid="text-frame-2">
                         Footplate Sections - 2” x 2” x{" "}
-                          <span className="font-bold text-blue-600 dark:text-blue-400" data-testid="text-dynamic-flootplate-sections">
+                          <span className="font-bold text-blue-600 dark:text-blue-400" data-testid="text-dynamic-footplate-sections">
                           {dynamicMeasurements.footplateSectionLength || 0}"
                           </span>{" "}
                         </li>
@@ -300,8 +326,17 @@ export default function WheelchairCustomization() {
                       <strong><em>From 2” x 4” x ½” Plywood</em></strong>
                       <ul className="list-disc list-inside ml-7">
 
-                        <li>Footplate Supports - XX x 4” x ½”</li>
-
+                        <li data-testid="text-frame-2.5">
+                          Footplate Supports –
+                          {" "}
+                          <span
+                            className="font-bold text-blue-600 dark:text-blue-400"
+                            data-testid="text-dynamic-footsupport-length"
+                          >
+                            {dynamicMeasurements.footSupportLength || 0}"
+                          </span>
+                          {" "} x 4” x ½”
+                      </li>
                         <li data-testid="text-frame-3">
                             Lower Camber Tube Board – 3” x{" "}
                             <span
