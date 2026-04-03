@@ -93,10 +93,13 @@ export default function WheelchairCustomization() {
         {/* Title and Description */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4" data-testid="text-title">
-            Wheelchair Customization
+            Welcome!
           </h1>
           <p className="text-gray-600 dark:text-gray-300 max-w-3xl" data-testid="text-description">
-            Use this tool to customize your wheelchair designs based on user measurements. This helps you design a customized Ply Guy Active Wheelchair, courtesy of OpenSourceWheelchairs and designer Erik Kondo.
+            This tool was created by MIT Assistive Technology and our co-designer, Erik Kondo. We are a club that aims to make assistive technology more accessible and customizable for everyone.
+
+
+            Use this tool to customize your wheelchair designs based on user measurements. This helps you design customized wheelchairs from different materials and for different purposes. Several of these designs are courtesy of OpenSourceWheelchairs and designer Erik Kondo, who have designed many wheelchairs for all types of needs.
           </p>
         </div>
 
@@ -112,6 +115,68 @@ export default function WheelchairCustomization() {
               />
             </CardContent>
           </Card>
+        </div>
+        {/* Page Navigation Table */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">
+            Explore Designs
+          </h2>
+
+
+          <div className="overflow-x-auto">
+            <table className="w-full border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
+              <tbody>
+
+
+                <tr className="border-b border-gray-300 dark:border-gray-700">
+                  <td className="p-4 text-gray-600">
+                    Available Designs
+                  </td>
+
+
+                  <td className="p-4 text-gray-600">
+                    Materials
+                  </td>
+                </tr>
+
+
+                <tr className="border-b border-gray-300 dark:border-gray-700">
+                  <td className="p-4">
+                    <a href="/Design Name #1" className="text-blue-600 hover:underline">
+                      Design Name #1
+                    </a>
+                  </td>
+                  <td className="p-4 text-gray-600">
+                    Wood
+                  </td>
+                </tr>
+
+
+                <tr className="border-b border-gray-300 dark:border-gray-700">
+                  <td className="p-4">
+                    <a href="/Design Name #2" className="text-blue-600 hover:underline">
+                      Design Name #2
+                    </a>
+                  </td>
+                  <td className="p-4 text-gray-600">
+                    PVC
+                  </td>
+                </tr>
+
+
+                <tr>
+                  <td className="p-4">
+                    <a href="/Design Name #3" className="text-blue-600 hover:underline">
+                      Design Name #3
+                    </a>
+                  </td>
+                  <td className="p-4 text-gray-600">
+                    Lego
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* Instructions (left) + Measurements Form (right) */}

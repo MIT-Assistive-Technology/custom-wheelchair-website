@@ -103,6 +103,14 @@ export default function WheelchairCustomization() {
                                                     </a>
                                                 </NavigationMenuLink>
                                             </li>
+                                            <li>
+                                                <NavigationMenuLink asChild>
+                                                    <a href="#design2" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground">
+                                                        <div className="text-sm font-medium">Design 3</div>
+                                                        <p className="text-sm text-muted-foreground">Wheelchair type 3</p>
+                                                    </a>
+                                                </NavigationMenuLink>
+                                            </li>
                                         </ul>
                                     </NavigationMenuContent>
                                 </NavigationMenuItem>
