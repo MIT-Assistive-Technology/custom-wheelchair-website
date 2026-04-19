@@ -5,6 +5,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Design1 from "@/pages/Design1"
+import Design2 from "@/pages/Design2"
+import Design3 from "@/pages/Design3"
+
 
 import WheelchairCustomization from "@/pages/WheelchairCustomization";
 
@@ -14,6 +17,9 @@ function Router() {
       {/* Add pages below */}
       <Route path="/" component={WheelchairCustomization} />
       <Route path="/design1" component={Design1} />
+      <Route path="/design2" component={Design2} />
+      <Route path="/design3" component={Design3} />
+
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import wheelchairImg from "@/pages/20250702_181035.avif";
+import instructionPDF from "@/pages/custom-wheelchair-website-Ply_Guy_Instructions.pdf";
 import { PDFDocument } from 'pdf-lib'
 import { Upload } from "lucide-react";
 
@@ -22,8 +23,7 @@ const navigationLinks = [
 
 
 // WheelchairCustomization Components: inputs from user in form boxes
-export default function Design1() {
-    const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+export default function Design2() {
     const [wheelchairImage, setWheelchairImage] = useState<string | null>(null);
     const [measurements, setMeasurements] = useState({
         hipWidth: 15,
@@ -69,51 +69,32 @@ export default function Design1() {
         footSupportLength: (measurements.shinLength) - 8,
     };
 
+    //     async function modifyPdf(dynamicMeasurements){
+    //                     const pdfDoc = instructionPDF
 
-    // Helper function to trigger the browser download
-    const downloadBlob = (data: Uint8Array,
-        fileName: string,
-        mimeType: string) => {
-        const blob = new Blob([data], { type: mimeType });
-        const url = window.URL.createObjectURL(blob);
-        const downloadLink = document.createElement('a');
-        downloadLink.href = url;
-        downloadLink.download = fileName;
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
-    };
+    //                     constform = pdfDoc.getForm()
+    //                     async function modifyPdf(userInputNumbers) {
+    // //   // 1. Load the existing template
+    // //   const url = '/templates/instructions.pdf'
+    // //   const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
+    // //   const pdfDoc = await PDFDocument.load(existingPdfBytes)
 
-    // Creates a downloadable file with the changes given user input
-    const handleModifyPdf = async () => {
-        try {
-            const existingPdfBytes = await fetch("/test_pdf (1)-1.pdf")
-                .then(res => {
-                    if (!res.ok) throw new Error('Failed to load PDF template');
-                    return res.arrayBuffer();
-                });
+    // //   // 2. Get the form fields
+    // //   const form = pdfDoc.getForm()
 
-            const pdfDoc = await PDFDocument.load(existingPdfBytes);
-            const form = pdfDoc.getForm();
+    // //   // 3. Update specific fields (assuming your PDF has fields named 'step1', 'step2')
+    // //   const step1Field = form.getTextField('step1')
+    // //   step1Field.setText(userInputNumbers.firstStep.toString())
 
-            // For now, only adds the upper chassis length
-            const upperField = form.getTextField('upper_chassis');
-            upperField.setText(dynamicMeasurements.upperChassisLength.toString());
-            const fields = form.getFields();
-            console.log("FIELDS:", fields.map(f => f.getName()));
+    // //   // 4. Flatten the form (optional: makes it non-editable by the user)
+    // //   form.flatten()
 
-            const pdfBytes = await pdfDoc.save();
+    // //   // 5. Serialize to bytes and trigger download
+    // //   const pdfBytes = await pdfDoc.save()
+    // //   download(pdfBytes, "updated-instructions.pdf", "application/pdf")
+    // // }
+    //                 }
 
-            downloadBlob(
-                pdfBytes,
-                "custom_wheelchair_instructions.pdf",
-                "application/pdf"
-            );
-        } catch (error) {
-            console.error("Error modifying PDF:", error);
-            alert("Could not generate PDF. Make sure test_pdf (1)-1_pdf.pdf is in /public.");
-        }
-    };
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             {/* Header */}
@@ -184,7 +165,7 @@ export default function Design1() {
                 {/* Title and Description */}
                 <div className="mb-8">
                     <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4" data-testid="text-title">
-                        Design 1
+                        Design 2
                     </h1>
                     <p className="text-gray-600 dark:text-gray-300 max-w-3xl" data-testid="text-description">
                         Use this tool to customize your wheelchair designs based on user measurements. This helps you design a customized Ply Guy Active Wheelchair, courtesy of OpenSourceWheelchairs and designer Erik Kondo.
@@ -459,18 +440,6 @@ export default function Design1() {
 
                 </div>
 
-                <div className="flex flex-col items-center gap-4 mb-12">
-                    <Button
-                        size="lg"
-                        onClick={handleModifyPdf}
-                        className="bg-blue-600 hover:bg-blue-700 text-white"
-                    >
-                        Generate Customized PDF
-                    </Button>
-                    <p className="text-sm text-gray-500">
-                        This will apply your measurements to the assembly instructions.
-                    </p>
-                </div>
 
                 {/* PDF Embed Section */}
                 <Card className="mt-12">
@@ -479,7 +448,7 @@ export default function Design1() {
                     </CardHeader>
                     <CardContent>
                         <iframe
-                            src={pdfUrl || "/test_pdf%20(1)-1.pdf"}
+                            src={instructionPDF}
                             title="Ply Guy Wheelchair Instructions"
                             width="100%"
                             height="600px"
