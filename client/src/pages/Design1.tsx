@@ -71,23 +71,32 @@ export default function Design1() {
 
 
     // Helper function to trigger the browser download
-    const downloadBlob = (data: Uint8Array,
-        fileName: string,
-        mimeType: string) => {
-        const blob = new Blob([data], { type: mimeType });
-        const url = window.URL.createObjectURL(blob);
-        const downloadLink = document.createElement('a');
-        downloadLink.href = url;
-        downloadLink.download = fileName;
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
+    // const downloadBlob = (data: Uint8Array,
+    //     fileName: string,
+    //     mimeType: string) => {
+    //     const blob = new Blob([data], { type: mimeType });
+    //     const url = window.URL.createObjectURL(blob);
+
+    //     const downloadLink = document.createElement('a');
+    //     downloadLink.href = url;
+    //     downloadLink.download = fileName;
+    //     document.body.appendChild(downloadLink);
+    //     downloadLink.click();
+    //     document.body.removeChild(downloadLink);
+    // };
+    const downloadBlob = (url: string, fileName: string) => {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
 
     // Creates a downloadable file with the changes given user input
     const handleModifyPdf = async () => {
         try {
-            const existingPdfBytes = await fetch("/test_pdf (1)-1.pdf")
+            const existingPdfBytes = await fetch("/wheelchair_instructions.pdf")
                 .then(res => {
                     if (!res.ok) throw new Error('Failed to load PDF template');
                     return res.arrayBuffer();
@@ -98,20 +107,51 @@ export default function Design1() {
 
             // For now, only adds the upper chassis length
             const upperField = form.getTextField('upper_chassis');
-            upperField.setText(dynamicMeasurements.upperChassisLength.toString());
+            upperField.setText(`${dynamicMeasurements.upperChassisLength.toString()}"`);
+
+            const backrestField = form.getTextField('backrest_support');
+            backrestField.setText(`${dynamicMeasurements.backrestSupport.toString()}"`);
+
+            const footplateField = form.getTextField('footplate_sections');
+            footplateField.setText(`${dynamicMeasurements.footplateSectionLength.toString()}"`);
+
+            const seatpan1Field = form.getTextField('seat_pan1');
+            seatpan1Field.setText(`${dynamicMeasurements.seatPanWidth.toString()}"`);
+
+            const seatpan2Field = form.getTextField('seat_pan2');
+            seatpan2Field.setText(`${dynamicMeasurements.seatPanDepth.toString()}"`);
+
+            const backrest1Field = form.getTextField('backrest1');
+            backrest1Field.setText(`${dynamicMeasurements.backrestHeight.toString()}"`);
+
+            const backrest2Field = form.getTextField('backrest2');
+            backrest2Field.setText(`${dynamicMeasurements.seatPanWidth.toString()}"`);
+
+            const footplate_supportsField = form.getTextField('footplate_supports');
+            footplate_supportsField.setText(`${dynamicMeasurements.footSupportLength.toString()}"`);
+
+            const lowcamberField = form.getTextField('lower_camber');
+            lowcamberField.setText(`${dynamicMeasurements.camberTubeLength.toString()}"`);
+
+            const highcamberField = form.getTextField('upper_camber');
+            highcamberField.setText(`${dynamicMeasurements.camberTubeLength.toString()}"`);
+
             const fields = form.getFields();
             console.log("FIELDS:", fields.map(f => f.getName()));
 
             const pdfBytes = await pdfDoc.save();
 
-            downloadBlob(
-                pdfBytes,
-                "custom_wheelchair_instructions.pdf",
-                "application/pdf"
-            );
+            const blob = new Blob([pdfBytes], { type: "application/pdf" });
+            const url = URL.createObjectURL(blob);
+
+            setPdfUrl(url);          // 👈 preview
+            downloadBlob(url, "custom_wheelchair_instructions.pdf");
+
+
+
         } catch (error) {
             console.error("Error modifying PDF:", error);
-            alert("Could not generate PDF. Make sure test_pdf (1)-1_pdf.pdf is in /public.");
+            alert("Could not generate PDF. Make sure wheelchair_instructions.pdf is in /public.");
         }
     };
     return (
@@ -479,7 +519,8 @@ export default function Design1() {
                     </CardHeader>
                     <CardContent>
                         <iframe
-                            src={pdfUrl || "/test_pdf%20(1)-1.pdf"}
+                            key={pdfUrl}
+                            src={pdfUrl || "/wheelchair_instructions.pdf"}
                             title="Ply Guy Wheelchair Instructions"
                             width="100%"
                             height="600px"

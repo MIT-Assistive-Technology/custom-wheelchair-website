@@ -7,8 +7,6 @@ import NotFound from "@/pages/not-found";
 import Design1 from "@/pages/Design1"
 import Design2 from "@/pages/Design2"
 import Design3 from "@/pages/Design3"
-
-
 import WheelchairCustomization from "@/pages/WheelchairCustomization";
 
 function Router() {
