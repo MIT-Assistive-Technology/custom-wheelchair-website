@@ -61,10 +61,16 @@ app.use((req, res, next) => {
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
 
-  const PORT = parseInt(process.env.PORT || "5173", 10);
+  // const PORT = parseInt(process.env.PORT || "5173", 10);
+  // console.log("Environment port:", process.env.PORT);
+  // server.listen(PORT, "127.0.0.1", () => {
+  //   console.log(`Server running at http://localhost:${PORT}`);
+  // });
+
+  const PORT = parseInt(process.env.PORT || "10000", 10); // Render likes 10000
   console.log("Environment port:", process.env.PORT);
-  server.listen(PORT, "127.0.0.1", () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+  server.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running at http://0.0.0.0:${PORT}`);
   });
 
   // const port = parseInt(process.env.PORT || '5000', 10);
