@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import wheelchairImg from "@/pages/20250702_181035.avif";
-import instructionPDF from "@/pages/custom-wheelchair-website-Ply_Guy_Instructions.pdf";
+import ATLogo from "@/pages/MITATLogo.png";
 import { PDFDocument } from 'pdf-lib'
 import { Upload } from "lucide-react";
 
@@ -22,8 +22,10 @@ const navigationLinks = [
 ];
 
 
+
 // WheelchairCustomization Components: inputs from user in form boxes
 export default function Design3() {
+    const [pdfUrl, setPdfUrl] = useState<string | null>(null);
     const [wheelchairImage, setWheelchairImage] = useState<string | null>(null);
     const [measurements, setMeasurements] = useState({
         hipWidth: 15,
@@ -69,31 +71,80 @@ export default function Design3() {
         footSupportLength: (measurements.shinLength) - 8,
     };
 
-    //     async function modifyPdf(dynamicMeasurements){
-    //                     const pdfDoc = instructionPDF
 
-    //                     constform = pdfDoc.getForm()
-    //                     async function modifyPdf(userInputNumbers) {
-    // //   // 1. Load the existing template
-    // //   const url = '/templates/instructions.pdf'
-    // //   const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer())
-    // //   const pdfDoc = await PDFDocument.load(existingPdfBytes)
+    // Helper function for downloading
+    const downloadBlob = (url: string, fileName: string) => {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
-    // //   // 2. Get the form fields
-    // //   const form = pdfDoc.getForm()
+    // Creates a downloadable file with the changes given user input
+    const handleModifyPdf = async () => {
+        try {
+            const existingPdfBytes = await fetch("/wheelchair_instructions.pdf")
+                .then(res => {
+                    if (!res.ok) throw new Error('Failed to load PDF template');
+                    return res.arrayBuffer();
+                });
 
-    // //   // 3. Update specific fields (assuming your PDF has fields named 'step1', 'step2')
-    // //   const step1Field = form.getTextField('step1')
-    // //   step1Field.setText(userInputNumbers.firstStep.toString())
+            const pdfDoc = await PDFDocument.load(existingPdfBytes);
+            const form = pdfDoc.getForm();
 
-    // //   // 4. Flatten the form (optional: makes it non-editable by the user)
-    // //   form.flatten()
+            // All the text fields
+            const upperField = form.getTextField('upper_chassis');
+            upperField.setText(`${dynamicMeasurements.upperChassisLength.toString()}"`);
 
-    // //   // 5. Serialize to bytes and trigger download
-    // //   const pdfBytes = await pdfDoc.save()
-    // //   download(pdfBytes, "updated-instructions.pdf", "application/pdf")
-    // // }
-    //                 }
+            const backrestField = form.getTextField('backrest_support');
+            backrestField.setText(`${dynamicMeasurements.backrestSupport.toString()}"`);
+
+            const footplateField = form.getTextField('footplate_sections');
+            footplateField.setText(`${dynamicMeasurements.footplateSectionLength.toString()}"`);
+
+            const seatpan1Field = form.getTextField('seat_pan1');
+            seatpan1Field.setText(`${dynamicMeasurements.seatPanWidth.toString()}"`);
+
+            const seatpan2Field = form.getTextField('seat_pan2');
+            seatpan2Field.setText(`${dynamicMeasurements.seatPanDepth.toString()}"`);
+
+            const backrest1Field = form.getTextField('backrest1');
+            backrest1Field.setText(`${dynamicMeasurements.backrestHeight.toString()}"`);
+
+            const backrest2Field = form.getTextField('backrest2');
+            backrest2Field.setText(`${dynamicMeasurements.seatPanWidth.toString()}"`);
+
+            const footplate_supportsField = form.getTextField('footplate_supports');
+            footplate_supportsField.setText(`${dynamicMeasurements.footSupportLength.toString()}"`);
+
+            const lowcamberField = form.getTextField('lower_camber');
+            lowcamberField.setText(`${dynamicMeasurements.camberTubeLength.toString()}"`);
+
+            const highcamberField = form.getTextField('upper_camber');
+            highcamberField.setText(`${dynamicMeasurements.camberTubeLength.toString()}"`);
+
+            const fields = form.getFields();
+            console.log("FIELDS:", fields.map(f => f.getName()));
+
+
+            const pdfBytes = await pdfDoc.save();
+
+            const blob = new Blob([pdfBytes], { type: "application/pdf" });
+            const url = URL.createObjectURL(blob);
+
+            setPdfUrl(url);
+            downloadBlob(url, "custom_wheelchair_instructions.pdf");
+
+
+
+        } catch (error) {
+            console.error("Error modifying PDF:", error);
+            alert("Could not generate PDF. Make sure wheelchair_instructions.pdf is in /public.");
+        }
+    };
+
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -102,7 +153,18 @@ export default function Design3() {
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
                     <a href="/">
                         <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700" />
+                            < div className="flex justify-center" >
+                                <Card className="w-full max-w-xl">
+                                    <CardContent className="p-1">
+                                        <img
+                                            src={ATLogo}
+                                            // alt="Wheelchair Illustration"
+                                            className="w-12 h-12"
+                                        // data-testid="img-wheelchair-illustration"
+                                        />
+                                    </CardContent>
+                                </Card>
+                            </div >
                             <div className="font-normal text-black dark:text-white text-xl tracking-[-0.40px]">
                                 MIT Assistive Technology
                             </div>
@@ -119,7 +181,7 @@ export default function Design3() {
                                             <li>
                                                 <NavigationMenuLink asChild>
                                                     <a href="/design1" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground">
-                                                        <div className="text-sm font-medium">Design 1</div>
+                                                        <div className="text-sm font-medium">Ply Guy Active Wheelchair</div>
                                                         <p className="text-sm text-muted-foreground">Wheelchair type 1</p>
                                                     </a>
                                                 </NavigationMenuLink>
@@ -440,6 +502,18 @@ export default function Design3() {
 
                 </div>
 
+                <div className="flex flex-col items-center gap-4 mb-12">
+                    <Button
+                        size="lg"
+                        onClick={handleModifyPdf}
+                        className="bg-blue-600 hover:bg-blue-700 text-white"
+                    >
+                        Generate Customized PDF
+                    </Button>
+                    <p className="text-sm text-gray-500">
+                        This will apply your measurements to the assembly instructions.
+                    </p>
+                </div>
 
                 {/* PDF Embed Section */}
                 <Card className="mt-12">
@@ -448,7 +522,8 @@ export default function Design3() {
                     </CardHeader>
                     <CardContent>
                         <iframe
-                            src={instructionPDF}
+                            key={pdfUrl}
+                            src={pdfUrl || "/wheelchair_instructions.pdf"}
                             title="Ply Guy Wheelchair Instructions"
                             width="100%"
                             height="600px"

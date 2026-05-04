@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import wheelchairImg from "@/pages/20250702_181035.avif";
+import ATLogo from "@/pages/MITATLogo.png";
 import { PDFDocument } from 'pdf-lib'
 import { Upload } from "lucide-react";
 
@@ -70,20 +71,7 @@ export default function Design1() {
     };
 
 
-    // Helper function to trigger the browser download
-    // const downloadBlob = (data: Uint8Array,
-    //     fileName: string,
-    //     mimeType: string) => {
-    //     const blob = new Blob([data], { type: mimeType });
-    //     const url = window.URL.createObjectURL(blob);
-
-    //     const downloadLink = document.createElement('a');
-    //     downloadLink.href = url;
-    //     downloadLink.download = fileName;
-    //     document.body.appendChild(downloadLink);
-    //     downloadLink.click();
-    //     document.body.removeChild(downloadLink);
-    // };
+    // Helper function for downloading
     const downloadBlob = (url: string, fileName: string) => {
         const link = document.createElement('a');
         link.href = url;
@@ -105,7 +93,7 @@ export default function Design1() {
             const pdfDoc = await PDFDocument.load(existingPdfBytes);
             const form = pdfDoc.getForm();
 
-            // For now, only adds the upper chassis length
+            // All the text fields
             const upperField = form.getTextField('upper_chassis');
             upperField.setText(`${dynamicMeasurements.upperChassisLength.toString()}"`);
 
@@ -139,12 +127,13 @@ export default function Design1() {
             const fields = form.getFields();
             console.log("FIELDS:", fields.map(f => f.getName()));
 
+
             const pdfBytes = await pdfDoc.save();
 
             const blob = new Blob([pdfBytes], { type: "application/pdf" });
             const url = URL.createObjectURL(blob);
 
-            setPdfUrl(url);          // 👈 preview
+            setPdfUrl(url);
             downloadBlob(url, "custom_wheelchair_instructions.pdf");
 
 
@@ -154,14 +143,26 @@ export default function Design1() {
             alert("Could not generate PDF. Make sure wheelchair_instructions.pdf is in /public.");
         }
     };
+
+
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-            {/* Header */}
             <header className="bg-white dark:bg-gray-800 shadow-sm px-8 py-4">
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
                     <a href="/">
                         <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700" />
+                            < div className="flex justify-center" >
+                                <Card className="w-full max-w-xl">
+                                    <CardContent className="p-1">
+                                        <img
+                                            src={ATLogo}
+                                            // alt="Wheelchair Illustration"
+                                            className="w-12 h-12"
+                                        // data-testid="img-wheelchair-illustration"
+                                        />
+                                    </CardContent>
+                                </Card>
+                            </div >
                             <div className="font-normal text-black dark:text-white text-xl tracking-[-0.40px]">
                                 MIT Assistive Technology
                             </div>
@@ -178,7 +179,7 @@ export default function Design1() {
                                             <li>
                                                 <NavigationMenuLink asChild>
                                                     <a href="/design1" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground">
-                                                        <div className="text-sm font-medium">Design 1</div>
+                                                        <div className="text-sm font-medium">Ply Guy Active Wheelchair</div>
                                                         <p className="text-sm text-muted-foreground">Wheelchair type 1</p>
                                                     </a>
                                                 </NavigationMenuLink>
@@ -224,7 +225,7 @@ export default function Design1() {
                 {/* Title and Description */}
                 <div className="mb-8">
                     <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4" data-testid="text-title">
-                        Design 1
+                        Ply Guy Active Wheelchair
                     </h1>
                     <p className="text-gray-600 dark:text-gray-300 max-w-3xl" data-testid="text-description">
                         Use this tool to customize your wheelchair designs based on user measurements. This helps you design a customized Ply Guy Active Wheelchair, courtesy of OpenSourceWheelchairs and designer Erik Kondo.
