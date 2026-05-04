@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import wheelchairImg from "@/pages/20250702_181035.avif";
+import ATLogo from "@/pages/MITATLogo.png";
 import instructionPDF from "@/pages/custom-wheelchair-website-Ply_Guy_Instructions.pdf";
 import { PDFDocument } from 'pdf-lib'
 import { Upload } from "lucide-react";
@@ -77,7 +78,18 @@ export default function Design1() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <a href="/">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700" />
+              < div className="flex justify-center" >
+                <Card className="w-full max-w-xl">
+                  <CardContent className="p-1">
+                    <img
+                      src={ATLogo}
+                      // alt="Wheelchair Illustration"
+                      className="w-12 h-12"
+                    // data-testid="img-wheelchair-illustration"
+                    />
+                  </CardContent>
+                </Card>
+              </div >
               <div className="font-normal text-black dark:text-white text-xl tracking-[-0.40px]">
                 MIT Assistive Technology
               </div>
@@ -94,7 +106,7 @@ export default function Design1() {
                       <li>
                         <NavigationMenuLink asChild>
                           <a href="/design1" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground">
-                            <div className="text-sm font-medium">Design 1</div>
+                            <div className="text-sm font-medium">Ply Guy Active Wheelchair</div>
                             <p className="text-sm text-muted-foreground">Wheelchair type 1</p>
                           </a>
                         </NavigationMenuLink>
@@ -193,7 +205,7 @@ export default function Design1() {
                 <tr className="border-b border-gray-300 dark:border-gray-700">
                   <td className="p-4">
                     <a href="/design1" className="text-blue-600 hover:underline">
-                      Design Name #1
+                      Ply Guy Active Wheelchair
                     </a>
                   </td>
                   <td className="p-4 text-gray-600">
